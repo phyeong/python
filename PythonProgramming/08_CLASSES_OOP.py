@@ -43,7 +43,6 @@
 # print(id(s))
 
 import datetime
-from glob import escape
 class Person(object):
     def __init__(self, name):
         """ Create a person """
@@ -102,8 +101,8 @@ class MITPerson(Person):
         return self.idNum
     def __lt__(self, other):
         return self.idNum < other.idNum
-    def isStudent(self):
-        return isinstance(self, Student)
+    # def isStudent(self):
+    #     return isinstance(self, Student)
 # # p1 = MITPerson('Barbara Beaver')
 # # print(str(p1) + '\'s id number is ' + str(p1.getIdNum()))
 # p1 = MITPerson('Mark Guttag')
@@ -152,7 +151,7 @@ class Grades(object):
         """ Assumes: grade is a float
             Add grade to the list of grades for student """
         try:
-            self.grade[student.getIdNum()].append(grade)
+            self.grades[student.getIdNum()].append(grade)
         except:
             raise ValueError('Student not in mapping')
     def getGrades(self, student):
@@ -167,7 +166,7 @@ class Grades(object):
             self.students.sort()
             self.isSorted = True
         return self.students[:]
-
+        
 def gradeReport(course):
     """ Assumes course is of type Grades """
     report = ''
@@ -189,17 +188,17 @@ ug2 = UG('John Doe', 2015)
 ug3 = UG('David Henry', 2003)
 g1 = Grad('Billy Buckner')
 g2 = Grad('Bucky F. Dent')
-print(str(ug1) + '\'s id number is ' + str(ug1.getIdNum()))
-print(str(ug2) + '\'s id number is ' + str(ug2.getIdNum()))
-print(str(ug3) + '\'s id number is ' + str(ug3.getIdNum()))
-print(str(g1) + '\'s id number is ' + str(g1.getIdNum()))
-print(str(g2) + '\'s id number is ' + str(g2.getIdNum()))
+# print(str(ug1) + '\'s id number is ' + str(ug1.getIdNum()))
+# print(str(ug2) + '\'s id number is ' + str(ug2.getIdNum()))
+# print(str(ug3) + '\'s id number is ' + str(ug3.getIdNum()))
+# print(str(g1) + '\'s id number is ' + str(g1.getIdNum()))
+# print(str(g2) + '\'s id number is ' + str(g2.getIdNum()))
 sixHundred = Grades()
 sixHundred.addStudent(ug1)
 sixHundred.addStudent(ug2)
 sixHundred.addStudent(g1)
 sixHundred.addStudent(g2)
-print(sixHundred.getStudents()[0].getIdNum())
+# print(sixHundred.getStudents()[0].getIdNum())
 for s in sixHundred.getStudents():
     sixHundred.addGrade(s, 75)
 sixHundred.addGrade(g1, 25)
