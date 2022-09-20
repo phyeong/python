@@ -65,7 +65,6 @@ class Mortgage(object):
         net = pylab.array(totPd) - equityAcquired
         pylab.plot(net, style, label = self.legend)
 
-
 class Fixed(Mortgage):
     def __init__(self, loan, r, months):
         Mortgage.__init__(self, loan, r, months)
