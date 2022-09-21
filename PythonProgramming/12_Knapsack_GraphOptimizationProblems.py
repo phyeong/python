@@ -43,7 +43,6 @@
 #     print('Total value of items taken is', val)
 #     for item in taken:
 #         print('  ', item)
-
 # def testGreedys(maxWeight = 20):
 #     items = buildItems()
 #     print('Use greedy by value to fill knapsack of size', maxWeight)
