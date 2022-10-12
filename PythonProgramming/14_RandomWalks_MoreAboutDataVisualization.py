@@ -65,7 +65,8 @@ def simWalks(numSteps, numTrials, dClass):
     for t in range(numTrials):
         f = Field()
         f.addDrunk(Homer, origin)
-        distances.append(round(walk(f, Homer, numSteps), 1))
+        distances.append(round(walk(f, Homer, numTrials), 1))
+#        distances.append(round(walk(f, Homer, numSteps), 1))
     return distances
 
 def drunkTest(walkLengths, numTrials, dClass):
