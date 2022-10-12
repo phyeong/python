@@ -65,8 +65,8 @@ def simWalks(numSteps, numTrials, dClass):
     for t in range(numTrials):
         f = Field()
         f.addDrunk(Homer, origin)
-        distances.append(round(walk(f, Homer, numTrials), 1))
-#        distances.append(round(walk(f, Homer, numSteps), 1))
+#        distances.append(round(walk(f, Homer, numTrials), 1))
+        distances.append(round(walk(f, Homer, numSteps), 1))
     return distances
 
 def drunkTest(walkLengths, numTrials, dClass):
@@ -78,4 +78,20 @@ def drunkTest(walkLengths, numTrials, dClass):
         print('Mean =', round(sum(distances)/len(distances), 4))
         print('Max =', max(distances), 'Min =', min(distances))
 
-drunkTest((0,1), 100, UsualDrunk)
+# drunkTest((0,1, 10, 100, 1000, 10000), 100, UsualDrunk)
+
+class ColdDrunk(Drunk):
+    def takeStep(self):
+        stepChoices = [(0,1), (0,-2), (1,0), (-1,0)]
+        return random.choice(stepChoices)
+
+class EWDrunk(Drunk):
+    def takeStep(self):
+        stepChoices = [(1,0), (-1,0)]
+        return random.choice(stepChoices)
+
+def simAll(drunkKinds, walkLengths, numTrials):
+    for dClass in drunkKinds:
+        drunkTest(walkLengths, numTrials, dClass)
+
+simAll((UsualDrunk, ColdDrunk, EWDrunk), (100, 1000), 10)
