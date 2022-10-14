@@ -132,4 +132,59 @@ def simAll1(drunkKinds, walkLengths, numTrials):
     pylab.semilogy()
     pylab.show()
 
-simAll1((UsualDrunk, ColdDrunk, EWDrunk), (10, 100, 1000, 10000, 100000), 100)
+# simAll1((UsualDrunk, ColdDrunk, EWDrunk), (10, 100, 1000, 10000, 100000), 100)
+
+def getFinalLocs(numSteps, numTrials, dClass):
+    locs = []
+    d = dClass()
+    for t in range(numTrials):
+        f = Field()
+        f.addDrunk(d, Location(0, 0))
+        for s in range(numSteps):
+            f.moveDrunk(d)
+        locs.append(f.getLoc(d))
+    return locs
+
+def plotLocs(drunkKinds, numSteps, numTrials):
+    styleChoice = styleIterator(('k+', 'r^', 'mo'))
+    for dClass in drunkKinds:
+        locs = getFinalLocs(numSteps, numTrials, dClass)
+        xVals, yVals = [], []
+        for loc in locs:
+            xVals.append(loc.getX())
+            yVals.append(loc.getY())
+        meanX = sum(xVals) / len(xVals)
+        meanY = sum(yVals) / len(yVals)
+        curStyle = styleChoice.nextStyle()
+        pylab.plot(xVals, yVals, curStyle, label = dClass.__name__ + ' mean loc. =<' + str(meanX) + ',' + str(meanY) + '>')
+    pylab.title('Location at End of Walks (' + str(numSteps) + ' steps)')
+    pylab.xlabel('Steps East/West of Origin')
+    pylab.ylabel('Steps North/South of Origin')
+    pylab.legend(loc = 'lower left')
+    pylab.show()
+
+# plotLocs((UsualDrunk, ColdDrunk, EWDrunk), 100, 200)
+
+def traceWalk(drunkKinds, numSteps):
+    styleChoice = styleIterator(('k+', 'r^', 'mo'))
+    f = Field()
+    for dClass in drunkKinds:
+        d = dClass()
+        f.addDrunk(d, Location(0, 0))
+        locs = []
+        for s in range(numSteps):
+            f.moveDrunk(d)
+            locs.append(f.getLoc(d))
+        xVals, yVals = [], []
+        for loc in locs:
+            xVals.append(loc.getX())
+            yVals.append(loc.getY())
+        curStyle = styleChoice.nextStyle()
+        pylab.plot(xVals, yVals, curStyle, label = dClass.__name__)
+    pylab.title('Spots Visited on Walk (' + str(numSteps) + ' steps)')
+    pylab.xlabel('Steps East/West of Orgin')
+    pylab.ylabel('Steps North/South of Origin')
+    pylab.legend(loc = 'best')
+    pylab.show()
+
+traceWalk((UsualDrunk, ColdDrunk, EWDrunk), 200)
