@@ -94,4 +94,42 @@ def simAll(drunkKinds, walkLengths, numTrials):
     for dClass in drunkKinds:
         drunkTest(walkLengths, numTrials, dClass)
 
-simAll((UsualDrunk, ColdDrunk, EWDrunk), (100, 1000), 10)
+# simAll((UsualDrunk, ColdDrunk, EWDrunk), (100, 1000), 10)
+
+class styleIterator(object):
+    def __init__(self, styles):
+        self.index = 0
+        self.styles = styles
+    def nextStyle(self):
+        result = self.styles[self.index]
+        if self.index == len(self.styles) - 1:
+            self.index = 0
+        else:
+            self.index += 1
+        return result
+
+def simDrunk(numTrials, dClass, walkLengths):
+    meanDistances = []
+    for numSteps in walkLengths:
+        print('Starting simulation of', numSteps, 'steps')
+        trials = simWalks(numSteps, numTrials, dClass)
+        mean = sum(trials) / len(trials)
+        meanDistances.append(mean)
+    return meanDistances
+
+import pylab
+def simAll1(drunkKinds, walkLengths, numTrials):
+    styleChoice = styleIterator(('m-', 'r:', 'k-.'))
+    for dClass in drunkKinds:
+        curStyle = styleChoice.nextStyle()
+        print('Starting simulation of', dClass.__name__)
+        means = simDrunk(numTrials, dClass, walkLengths)
+        pylab.plot(walkLengths, means, curStyle, label = dClass.__name__)
+    pylab.title('Mean Distance from Origin (' + str(numTrials) + ' trials)')
+    pylab.xlabel('Number of Steps')
+    pylab.legend(loc = 'best')
+    pylab.semilogx()
+    pylab.semilogy()
+    pylab.show()
+
+simAll1((UsualDrunk, ColdDrunk, EWDrunk), (10, 100, 1000, 10000, 100000), 100)
